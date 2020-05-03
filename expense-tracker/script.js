@@ -128,6 +128,23 @@ init()
 form.addEventListener('submit', addTransaction)
 
 
+// ideas
+document.addEventListener('input', (e) => {
+  e.preventDefault(
+ // if class of the parent is .editMode
+ if (containsClass) {
+    //Switch from .editMode
+    //label text become the input's value
+    label.innerText = editInput.value;
+  } else {
+    //Switch to .editMode
+    //input value becomes the labels text
+    editInput.value = label.innerText;
+  }
+  //Toggle .editMode on the parent 
+  listItem.classList.toggle("editMode");
+})
+
 //For updating note, could have
 // the li become an input on click
 // and edit the value
