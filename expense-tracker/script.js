@@ -18,6 +18,28 @@ const localStorageTransactions = JSON.parse(localStorage.getItem('transactions')
 
 let transactions = localStorage.getItem('transactions') !== null ? localStorageTransactions : []
 
+//edit transaction
+function editTransaction(e, id) {
+  e.preventDefault()
+
+  if (text.value.trim() === '' || amount.value.trim() === '') {
+    alert('Please add a text and amount')
+  } else {
+    const transaction = {
+      id: generateID(),
+      text: text.value,
+      amount: parseInt(amount.value)
+    }
+    transactions.push(transaction)
+    addTransactionDOM(transaction)
+    updateValues()
+
+    updateLocalStorage()
+
+    text.value = ''
+    amount.value = ''
+  }
+}
 //Add transaction
 function addTransaction(e) {
   e.preventDefault()
@@ -55,6 +77,7 @@ function addTransactionDOM(transaction) {
   const item = document.createElement('li')
 
 
+
   // Add class based on value type, income or expense
   item.classList.add(transaction.amount < 0 ? 'minus' : 'plus')
 
@@ -63,7 +86,7 @@ function addTransactionDOM(transaction) {
   // way of identifying our sign
   item.innerHTML = `
     ${transaction.text} <span>${sign}${Math.abs(transaction.amount)}</span>
-     <button class="delete-btn" onclick="removeTransaction(${transaction.id})">x</button>
+     <button class="delete-btn" onclick="removeTransaction(${transaction.id})">x</button><button onclick="" class="editMode editBtn">Edit</button>
   `
 
   list.appendChild(item)
@@ -127,23 +150,31 @@ init()
 
 form.addEventListener('submit', addTransaction)
 
+// when clicked shows input hides listitem, get that input value
+// listen for 'input', call edit, update values of that transaction
+// with values entered.
+
+//last idea i had, make the input show after clicking, the btn,
+// if click on it, input should display block, simalr styling as li,
+// li should hide, until button clicked again, a toggle basically,
+// after figure out how to sane the data.
 
 // ideas
-document.addEventListener('input', (e) => {
-  e.preventDefault(
- // if class of the parent is .editMode
- if (containsClass) {
-    //Switch from .editMode
-    //label text become the input's value
-    label.innerText = editInput.value;
-  } else {
-    //Switch to .editMode
-    //input value becomes the labels text
-    editInput.value = label.innerText;
-  }
-  //Toggle .editMode on the parent 
-  listItem.classList.toggle("editMode");
-})
+// document.addEventListener('input', (e) => {
+//   e.preventDefault(
+//  // if class of the parent is .editMode
+//  if (containsClass) {
+//     //Switch from .editMode
+//     //label text become the input's value
+//     label.innerText = editInput.value;
+//   } else {
+//     //Switch to .editMode
+//     //input value becomes the labels text
+//     editInput.value = label.innerText;
+//   }
+//   //Toggle .editMode on the parent 
+//   listItem.classList.toggle("editMode");
+// })
 
 //For updating note, could have
 // the li become an input on click
