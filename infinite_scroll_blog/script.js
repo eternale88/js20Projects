@@ -87,7 +87,7 @@ const loading = document.querySelector('.loader')
 const filter = document.getElementById('filter')
 
 
-let limit = 3
+let limit = 5
 let page = 1
 
 
@@ -122,4 +122,57 @@ async function showPosts() {
     postContainer.appendChild(postEl)
   })
 }
+
+// Show loader and fetch more posts
+function showLoading() {
+  loading.classList.add('show')
+
+  // waits a second then loading ellipse fades out
+  setTimeout(() => {
+    loading.classList.remove('show')
+  }, 1000);
+
+  // after loading remove, increment page # so next 5 posts show
+  setTimeout(() => {
+    page++
+    showPosts()
+  }, 300);
+}
+
+
+// Filter Posts 
+function filterPosts(e) {
+  const term = e.target.value.toUpperCase()
+  // All returns a node list we can loop through out posts
+  const posts = document.querySelectorAll('.post')
+
+  // forEach post get title and body text, that we will match, to filter out items based on the text we enter
+  posts.forEach((post) => {
+    const title = post.querySelector('.post-title').innerText.toUpperCase()
+    const body = post.querySelector('.post-body').innerText.toUpperCase()
+
+    // if greater than 1 it matches
+    if (title.indexOf(term) > -1 || body.indexOf(term) > -1) {
+      post.style.display = 'flex'
+    } else {
+      post.style.display = 'none'
+    }
+
+  })
+}
+
+// Show initial posts
 showPosts()
+
+window.addEventListener('scroll', () => {
+  // gets root node, and access to scroll data
+  // console.log(document.documentElement.scrollTop)
+
+  const { scrollTop, scrollHeight, clientHeight } = document.documentElement
+
+  if (scrollTop + clientHeight >= scrollHeight - 5) {
+    showLoading()
+  }
+})
+
+filter.addEventListener('input', filterPosts)
