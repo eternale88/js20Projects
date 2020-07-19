@@ -1,0 +1,53 @@
+body {
+  background:#333;
+}
+
+.box {
+  background: #fff;
+  width: 200px;
+  height: 200px;
+  position: relative;
+  /* animation-delay: 2s; */
+  animation-duration: 4s;
+  animation-name: myAnimation;
+  animation-iteration-count: 1;
+  /* animation-direction: alternate; */
+   animation-timing-function: ease-out; 
+  /* transition: myAnimation 4s ease-in-out; */
+
+  /* so it doesn't go back to square at end of animation*/
+  animation-fill-mode: forwards;
+}
+
+@keyframes myAnimation {
+  0% {
+    background-color: #fff;
+    transform: translate(0px, 0px);
+    border-radius: 0 0 0 0;
+  }
+  25% {
+    background-color: red;
+    transform: translate(300px, 0px);
+    border-radius: 50% 0 0 0;
+
+  }
+  50% {
+    background-color :green;
+    transform: translate(300px, 300px);
+    border-radius: 50% 50% 0 0;
+
+  }
+  75% {
+    background-color :blue;
+    transform: translate(0px, 300px);
+    border-radius: 50% 50% 50% 0;
+
+  }
+  100% {
+    background-color: #fff;
+    transform: translate(0px, 0px);
+    border-radius: 50% 50% 50% 50%;
+
+
+  }
+}
